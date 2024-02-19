@@ -18,15 +18,22 @@
       <input
         type="text"
         class="form-input"
-        name="input"
+        name="search"
         placeholder="Search images..."
         required
       />
       <button type="submit" class="form-btn">Search</button>
     </form>
 
-    <span class="loader" hidden></span>
     <div class="gallery"></div>
+
+    <div class="container-btn">
+      <span class="loader" hidden></span>
+
+      <button type="button" class="loader-btn">
+        <span class="label">Load more</span>
+      </button>
+    </div>
 
     <script type="module" src="./main.js"></script>
   </body>

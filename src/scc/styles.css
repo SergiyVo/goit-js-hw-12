@@ -2,8 +2,9 @@
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    display: inline-block;
-    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
     border: 3px solid;
     border-color: #26b9e9 #26b9e9 transparent;
     box-sizing: border-box;
@@ -63,7 +64,7 @@ body {
     margin: 0;
 }
 
-.form {
+.form, .container-btn {
     width: 371px;
     height: 40px;
     margin: auto;
@@ -103,7 +104,7 @@ body {
     border: 1px solid #4e75ff;
 }
 
-.form-btn {
+.form-btn, .loader-btn {
     border-radius: 8px;
     padding: 8px 16px;
     width: 91px;
@@ -119,10 +120,10 @@ body {
     cursor: pointer;
 }
 
-.form-btn:hover {
+.form-btn:hover,
+.loader-btn:hover {
     background: #6c8cff;
 }
-
 
 
 .gallery {
