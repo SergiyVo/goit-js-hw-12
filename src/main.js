@@ -73,6 +73,7 @@ loadBtn.addEventListener('click', async () => {
     renderGallery(hits);
     scroll();
     if (perPage * page > totalHits) {
+      loadBtn.style.display = 'block'; 
       notification();
     }
   } catch (error) {
@@ -83,7 +84,7 @@ loadBtn.addEventListener('click', async () => {
       position: 'bottomCenter',
     });
   } finally {
-      loadBtn.style.display = 'block'; 
+    
   }
 });
 
