@@ -73,10 +73,9 @@ loadBtn.addEventListener('click', async () => {
     renderGallery(hits);
     scroll();
     if (perPage * page > totalHits) {
-      loadBtn.style.display = 'block'; 
       notification();
     }
-  } catch (error) {
+  } catch (error) { 
     iziToast.show({
       message: `Sorry, ${error}`,
       messageColor: '#FAFAFB',
@@ -84,7 +83,7 @@ loadBtn.addEventListener('click', async () => {
       position: 'bottomCenter',
     });
   } finally {
-    
+    form.reset();   
   }
 });
 
