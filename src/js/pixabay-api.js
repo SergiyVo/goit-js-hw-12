@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 export async function fetchImage(searchQuery, page) {
   const BASE_URL = 'https://pixabay.com';
   const END_POINT = '/api/';

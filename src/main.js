@@ -4,12 +4,6 @@ import { renderGallery } from './js/render-functions';
 import { refs } from './js/refs';
 import { fetchImage } from './js/pixabay-api';
 
-const form = document.querySelector('.form');
-const gallery = document.querySelector('.gallery');
-const loader = document.querySelector('.loader');
-const loadBtn = document.querySelector('.loader-btn');
-
-
 let page = 1;
 let perPage = 15;
 let searchQuery;
@@ -21,7 +15,7 @@ refs.form.addEventListener('submit', async e => {
   e.preventDefault();
   page = 1;
   refs.loader.style.display = 'none';
-  gallery.innerHTML = '';
+  refs.gallery.innerHTML = '';
   searchQuery = refs.form.elements.search.value.trim();
   if (searchQuery === '') {
     iziToast.show({
@@ -50,7 +44,6 @@ refs.form.addEventListener('submit', async e => {
     renderGallery(hits);
     if (totalHits < perPage) {
       notification(); 
-      refs.loadBtn.style.display = 'none';
     } else {
       refs.loadBtn.style.display = 'block'; 
     }
@@ -67,7 +60,7 @@ refs.form.addEventListener('submit', async e => {
   }
 });
 
-loadBtn.addEventListener('click', async () => {
+refs.loadBtn.addEventListener('click', async () => {
   page += 1;
 
   refs.loader.style.display = 'inline-block'; 
