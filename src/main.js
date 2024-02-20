@@ -1,8 +1,8 @@
 import axios from 'axios';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
+import { renderGallery } from './js/render-functions';
+import { refs } from './js/refs';
 
 const form = document.querySelector('.form');
 const gallery = document.querySelector('.gallery');
@@ -13,14 +13,14 @@ const loadBtn = document.querySelector('.loader-btn');
 let page = 1;
 let perPage = 15;
 let searchQuery;
-loadBtn.style.display = 'none';
-loader.style.display = 'none';
+refs.loadBtn.style.display = 'none';
+refs.loader.style.display = 'none';
 
-form.addEventListener('submit', async e => {
+refs.form.addEventListener('submit', async e => {
   e.preventDefault();
   page = 1;
   gallery.innerHTML = '';
-  searchQuery = form.elements.search.value.trim();
+  searchQuery = refs.form.elements.search.value.trim();
   if (searchQuery === '') {
     iziToast.show({
       message: 'Please write search image',
@@ -31,7 +31,7 @@ form.addEventListener('submit', async e => {
     return;
   }
 
-  loader.style.display = 'inline-block';
+  refs.loader.style.display = 'inline-block';
   try {
     const { hits, totalHits } = await fetchImage(searchQuery, page);
     if (totalHits === 0) {
@@ -42,14 +42,15 @@ form.addEventListener('submit', async e => {
         backgroundColor: '#EF4040',
         position: 'topRight',
       });
-      loader.style.display = 'none'; 
+      refs.loader.style.display = 'none'; 
       return;
     }
     renderGallery(hits);
     if (totalHits < perPage) {
       notification(); 
+      refs.loadBtn.style.display = 'none';
     } else {
-      loadBtn.style.display = 'block'; 
+      refs.loadBtn.style.display = 'block'; 
     }
   } catch (error) {
 
@@ -60,14 +61,14 @@ form.addEventListener('submit', async e => {
       position: 'topRight',
     });
   } finally {
-    form.reset();   
+    refs.form.reset();   
   }
 });
 
 loadBtn.addEventListener('click', async () => {
   page += 1;
-   loadBtn.style.display = 'block'; 
-  loader.style.display = 'inline-block'; 
+  refs.loadBtn.style.display = 'block'; 
+  refs.loader.style.display = 'inline-block'; 
   try {
     const { hits, totalHits } = await fetchImage(searchQuery, page);
     renderGallery(hits);
@@ -82,9 +83,9 @@ loadBtn.addEventListener('click', async () => {
       backgroundColor: '#EF4040',
       position: 'bottomCenter',
     });
-    loadBtn.style.display = 'none';
+    refs.loadBtn.style.display = 'none';
   } finally {
-      form.reset(); 
+    refs.form.reset(); 
   }
 });
 
@@ -106,50 +107,9 @@ async function fetchImage(searchQuery, page) {
   return data;
 }
 
-function galleryTemplate(element) {   //Робимо розмітку, забираємо з інформації яка прийшла те що нам потрібно за допомогою деструкторизації
-    const { webformatURL, largeImageURL, tags, likes, views, comments, downloads } = element;
-    return `
-    <li class="gallery-item">
-      <a class="gallery-link" href="${largeImageURL}">
-        <img class="gallery-image" src="${webformatURL}" alt="${tags}" />
-      </a>
-      <ul class="gallery-body">
-        <li class="gallery-info">
-          <h3>Likes:</h3>
-          <p>${likes}</p>
-        </li>
-        <li class="gallery-info">
-          <h3>Views:</h3>
-          <p>${views}</p>
-        </li>
-        <li class="gallery-info">
-          <h3>Comments:</h3>
-          <p>${comments}</p>
-        </li>
-        <li class="gallery-info">
-          <h3>Downloads:</h3>
-          <p>${downloads}</p>
-        </li>
-      </ul>
-    </li>`
-}
- 
-export function renderGallery(images) {   // Візуалізуємо інформацію яку приніс посильний
-    const markup = images.map(element => {
-        return galleryTemplate(element)
-    }).join('\n');       
-    gallery.insertAdjacentHTML('beforeend', markup);
-
-    new SimpleLightbox('.gallery a', {
-    captionDelay: 250,
-    captionsData: 'alt',
-    });
-    loader.style.display = 'none';
-}
-
 function notification() {
-  loadBtn.style.display = 'none';
-  loader.style.display = 'none';
+  refs.loadBtn.style.display = 'none';
+  refs.loader.style.display = 'none';
   iziToast.show({
     message: 'We are sorry, but you have reached the end of search results.',
     messageColor: '#FAFAFB',
