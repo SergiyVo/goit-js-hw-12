@@ -1,8 +1,8 @@
-import axios from 'axios';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import { renderGallery } from './js/render-functions';
 import { refs } from './js/refs';
+import { fetchImage } from './js/pixabay-api';
 
 const form = document.querySelector('.form');
 const gallery = document.querySelector('.gallery');
@@ -13,12 +13,14 @@ const loadBtn = document.querySelector('.loader-btn');
 let page = 1;
 let perPage = 15;
 let searchQuery;
+
 refs.loadBtn.style.display = 'none';
 refs.loader.style.display = 'none';
 
 refs.form.addEventListener('submit', async e => {
   e.preventDefault();
   page = 1;
+  refs.loader.style.display = 'none';
   gallery.innerHTML = '';
   searchQuery = refs.form.elements.search.value.trim();
   if (searchQuery === '') {
@@ -67,7 +69,7 @@ refs.form.addEventListener('submit', async e => {
 
 loadBtn.addEventListener('click', async () => {
   page += 1;
-  refs.loadBtn.style.display = 'block'; 
+
   refs.loader.style.display = 'inline-block'; 
   try {
     const { hits, totalHits } = await fetchImage(searchQuery, page);
@@ -83,29 +85,8 @@ loadBtn.addEventListener('click', async () => {
       backgroundColor: '#EF4040',
       position: 'bottomCenter',
     });
-    refs.loadBtn.style.display = 'none';
-  } finally {
-    refs.form.reset(); 
-  }
+  } 
 });
-
-async function fetchImage(searchQuery, page) {
-  const BASE_URL = 'https://pixabay.com';
-  const END_POINT = '/api/';
-  const searchParams = {
-    key: '42093583-bfe36716eb3593f6644c471e3',
-    q: searchQuery,
-    page,
-    image_type: 'photo',
-    orientation: 'horizontal',
-    safesearch: true,
-    per_page: perPage,
-  };
-
-  const urlparams = new URLSearchParams(searchParams);
-  const { data } = await axios.get(`${BASE_URL}${END_POINT}?${urlparams}`);
-  return data;
-}
 
 function notification() {
   refs.loadBtn.style.display = 'none';

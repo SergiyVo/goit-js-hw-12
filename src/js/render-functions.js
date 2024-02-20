@@ -2,6 +2,11 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import { refs } from './refs';
 
+let lightBox = new SimpleLightbox('.gallery-link', {
+  captionsData: "alt",
+  captionDelay: 500
+});
+
 function galleryTemplate(element) {   //Робимо розмітку, забираємо з інформації яка прийшла те що нам потрібно за допомогою деструкторизації
     const { webformatURL, largeImageURL, tags, likes, views, comments, downloads } = element;
     return `
@@ -33,12 +38,9 @@ function galleryTemplate(element) {   //Робимо розмітку, заби�
 export function renderGallery(images) {   // Візуалізуємо інформацію яку приніс посильний
     const markup = images.map(element => {
         return galleryTemplate(element)
-    }).join('\n');       
+    }).join();       
     refs.gallery.insertAdjacentHTML('beforeend', markup);
 
-    new SimpleLightbox('.gallery a', {
-    captionDelay: 250,
-    captionsData: 'alt',
-    });
-    refs.loader.style.display = 'none';
+  lightBox.refresh();
+ refs.loader.style.display = 'none';
 }
