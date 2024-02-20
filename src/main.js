@@ -19,7 +19,6 @@ loader.style.display = 'none';
 form.addEventListener('submit', async e => {
   e.preventDefault();
   page = 1;
-  loadBtn.style.display = 'none';
   gallery.innerHTML = '';
   searchQuery = form.elements.search.value.trim();
   if (searchQuery === '') {
@@ -48,11 +47,12 @@ form.addEventListener('submit', async e => {
     }
     renderGallery(hits);
     if (totalHits < perPage) {
-      notification();
+      notification(); 
     } else {
       loadBtn.style.display = 'block'; 
     }
   } catch (error) {
+
     iziToast.show({
       message: `Sorry, ${error}`,
       messageColor: '#FAFAFB',
@@ -66,7 +66,7 @@ form.addEventListener('submit', async e => {
 
 loadBtn.addEventListener('click', async () => {
   page += 1;
-  loadBtn.style.display = 'none';
+   loadBtn.style.display = 'block'; 
   loader.style.display = 'inline-block'; 
   try {
     const { hits, totalHits } = await fetchImage(searchQuery, page);
@@ -75,15 +75,16 @@ loadBtn.addEventListener('click', async () => {
     if (perPage * page > totalHits) {
       notification();
     }
-  } catch (error) { 
+  } catch (error) {
     iziToast.show({
       message: `Sorry, ${error}`,
       messageColor: '#FAFAFB',
       backgroundColor: '#EF4040',
       position: 'bottomCenter',
     });
+    loadBtn.style.display = 'none';
   } finally {
-    form.reset();   
+      form.reset(); 
   }
 });
 
@@ -143,19 +144,18 @@ export function renderGallery(images) {   // Візуалізуємо інфор
     captionDelay: 250,
     captionsData: 'alt',
     });
-
     loader.style.display = 'none';
 }
 
 function notification() {
+  loadBtn.style.display = 'none';
+  loader.style.display = 'none';
   iziToast.show({
     message: 'We are sorry, but you have reached the end of search results.',
     messageColor: '#FAFAFB',
     backgroundColor: '#1DB8F5',
     position: 'topRight',
   });
-  loadBtn.style.display = 'none';
-  loader.style.display = 'none';
 }
 
 function scroll() {
