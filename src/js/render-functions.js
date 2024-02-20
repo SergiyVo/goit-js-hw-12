@@ -42,5 +42,5 @@ export function renderGallery(images) {   // Візуалізуємо інфор
     refs.gallery.insertAdjacentHTML('beforeend', markup);
 
   lightBox.refresh();
- refs.loader.style.display = 'none';
+  refs.loader.style.display = 'none';
 }
