@@ -14,7 +14,7 @@ refs.loader.style.display = 'none';
 refs.form.addEventListener('submit', async e => {
   e.preventDefault();
   page = 1;
-  refs.loader.style.display = 'none';
+
   refs.gallery.innerHTML = '';
   searchQuery = refs.form.elements.search.value.trim();
   if (searchQuery === '') {
