@@ -5,7 +5,7 @@ export async function fetchImage(searchQuery, page) {
   const BASE_URL = 'https://pixabay.com';
   const END_POINT = '/api/';
   const searchParams = {
-    key: '42093583-bfe36716eb3593f6644c471e3',
+    key: '42413165-de21b3093ac09ea3a2837c255',
     q: searchQuery,
     page,
     image_type: 'photo',
